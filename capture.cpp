@@ -156,7 +156,7 @@ void Capture::do_capture()
 
         }
     } else if (event.type == ConfigureNotify){
-        XConfigureEvent *config = &capture->event.xconfigure;
+        XConfigureEvent *config = &event.xconfigure;
         if (config)
         {
                printf("capture win width: %d height: %d\n", config->width, config->height);
@@ -166,7 +166,7 @@ void Capture::do_capture()
                }
 
         }
-    } else if (event.type == capture->xdamage_event_base + XDamageNotify){
+    } else if (event.type == xdamage_event_base + XDamageNotify){
         XDamageNotifyEvent *damage_event = (XDamageNotifyEvent*) (&event);
         Rect rect;
         rect.top =  damage_event->area.y;
@@ -194,8 +194,8 @@ void Capture::do_capture()
             printf("capture image\n");
         } else {
             if (nvenc == NULL){
-                if (!create_gpu_encoder(){
-                    printf("create encoder failed!");
+                if (!create_gpu_encoder()){
+                    printf("create encoder failed!\n");
                     destroy_gpu_encoder();
                 }
             }
